@@ -12,6 +12,9 @@ const envSchema = z.object({
         65535
     )),
 
+    // App version - derived from package.json
+    VERSION: z.string().default(process.env.npm_package_version || '0.1.0'),
+
     // Database
     DATABASE_URL: z.string().url(),
 

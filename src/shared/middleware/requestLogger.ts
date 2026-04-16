@@ -3,6 +3,9 @@ import { logger } from '@/shared/logger';
 
 export const requestLogger = pinoHttp({
     logger,
+    autoLogging: {
+        ignore: (req) => req.url === '/health',
+    },
     customLogLevel: (_req, res, err) => {
         if (res.statusCode >= 500 || err) return 'error';
         if (res.statusCode >= 400 && res.statusCode < 500) return 'warn';
