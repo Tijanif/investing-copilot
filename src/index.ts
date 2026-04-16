@@ -2,14 +2,15 @@
 // this stub exists, so the toolchain has something to compile
 
 import { config } from './config';
+import { logger } from './shared/logger';
 
 
 async function main(): Promise<void> {
-    console.log(`Investment copilot booting on port ${config.PORT} (${config.NODE_ENV})`);
+    logger.info(`Investment copilot booting on port ${config.PORT} (${config.NODE_ENV})`);
 }
 
 
-main().catch((err: unknown) => {
-    console.error('Fatal startup error:', err);
+main().catch(() => {
+    logger.fatal('Fatal startup error:');
     process.exit(1);
 });

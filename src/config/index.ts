@@ -20,6 +20,9 @@ const envSchema = z.object({
 
     // Add keys her as new services are wired in
 
+    // Logger
+    LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace']).default('debug'),
+
 });
 
 // The type of our validated config - derived from the schema - not handwritten
