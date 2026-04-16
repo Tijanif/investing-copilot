@@ -4,6 +4,7 @@ import { errorHandler } from '@/shared/errors/middleware/errorHandler';
 import { microRouter } from '@/modules/micro/micro.routes';
 import { macroRouter } from '@/modules/macro/macro.routes';
 import {NotFoundError} from "@/shared/errors";
+import {healthRouter} from "@/modules/health/health.routes";
 
 export function createApp(): Application {
     const app = express();
@@ -13,6 +14,8 @@ export function createApp(): Application {
 
     // 2. Body Parser (Parses JSON bodies up to 10mb)
     app.use(express.json({ limit: '10mb' }));
+
+    app.use('/health', healthRouter);
 
     // 3. Mount Module Routers
     app.use('/api/micro', microRouter);
