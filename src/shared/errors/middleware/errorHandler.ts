@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { AppError } from '@/shared/errors';
 import { ApiResponse } from '@/shared/types';
+import { logger } from '@/shared/logger';
 
 export function errorHandler(
     err: unknown,
@@ -20,7 +21,7 @@ export function errorHandler(
 
     // 2. Handle Unexpected, Programmer Errors (Bugs)
     // We log the full stack trace for our own debugging
-    console.error('❌ Unhandled Server Error:', err);
+    logger.error('❌ Unhandled Server Error:');
 
     // But we hide the details from the user
         res.status(500).json({
