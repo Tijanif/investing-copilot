@@ -1,4 +1,4 @@
-import { pgTable, uuid, text, numeric, timestamp } from 'drizzle-orm/pg-core';
+import { pgTable, uuid, text, numeric, timestamp, index } from 'drizzle-orm/pg-core';
 import { portfolios } from './portfolios';
 
 export const positions = pgTable('positions', {
@@ -10,7 +10,9 @@ export const positions = pgTable('positions', {
     purchasedAt: timestamp('purchased_at', { withTimezone: true }).notNull(),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
-});
+}, (table) => [
+    index('positions_portfolio_id_idx').on(table.portfolioId),
+]);
 
 export type Position = typeof positions.$inferSelect;
 export type NewPosition = typeof positions.$inferInsert;
