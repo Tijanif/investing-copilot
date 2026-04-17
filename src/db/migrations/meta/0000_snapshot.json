@@ -1,5 +1,5 @@
 {
-  "id": "0930f5a7-8dfa-4b11-b610-9c74f1f7e223",
+  "id": "652db951-8146-4122-be7d-9605033205a4",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -108,7 +108,23 @@
           "default": "now()"
         }
       },
-      "indexes": {},
+      "indexes": {
+        "portfolios_user_id_idx": {
+          "name": "portfolios_user_id_idx",
+          "columns": [
+            {
+              "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
       "foreignKeys": {
         "portfolios_user_id_users_id_fk": {
           "name": "portfolios_user_id_users_id_fk",
@@ -186,7 +202,23 @@
           "default": "now()"
         }
       },
-      "indexes": {},
+      "indexes": {
+        "positions_portfolio_id_idx": {
+          "name": "positions_portfolio_id_idx",
+          "columns": [
+            {
+              "expression": "portfolio_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
       "foreignKeys": {
         "positions_portfolio_id_portfolios_id_fk": {
           "name": "positions_portfolio_id_portfolios_id_fk",
@@ -247,7 +279,7 @@
           "name": "embedding",
           "type": "vector(1024)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "published_at": {
           "name": "published_at",
@@ -275,7 +307,39 @@
           "default": "now()"
         }
       },
-      "indexes": {},
+      "indexes": {
+        "documents_embedding_idx": {
+          "name": "documents_embedding_idx",
+          "columns": [
+            {
+              "expression": "embedding",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "vector_cosine_ops"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "hnsw",
+          "with": {}
+        },
+        "documents_ticker_idx": {
+          "name": "documents_ticker_idx",
+          "columns": [
+            {
+              "expression": "ticker",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
@@ -347,7 +411,23 @@
           "default": "now()"
         }
       },
-      "indexes": {},
+      "indexes": {
+        "analysis_runs_user_id_idx": {
+          "name": "analysis_runs_user_id_idx",
+          "columns": [
+            {
+              "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
       "foreignKeys": {
         "analysis_runs_user_id_users_id_fk": {
           "name": "analysis_runs_user_id_users_id_fk",

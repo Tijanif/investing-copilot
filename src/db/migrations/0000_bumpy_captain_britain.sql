@@ -1,4 +1,5 @@
-CREATE EXTENSION IF NOT EXISTS vector;--> statement-breakpoint
+CREATE EXTENSION IF NOT EXISTS vector;
+--> statement-breakpoint
 
 CREATE TYPE "public"."run_type" AS ENUM('micro', 'macro');--> statement-breakpoint
 CREATE TABLE "users" (
@@ -37,7 +38,7 @@ CREATE TABLE "documents" (
 	"source" text NOT NULL,
 	"title" text NOT NULL,
 	"content" text NOT NULL,
-	"embedding" vector(1024) NOT NULL,
+	"embedding" vector(1024),
 	"published_at" timestamp with time zone NOT NULL,
 	"as_of" timestamp with time zone NOT NULL,
 	"metadata" jsonb,
@@ -58,4 +59,9 @@ CREATE TABLE "analysis_runs" (
 --> statement-breakpoint
 ALTER TABLE "portfolios" ADD CONSTRAINT "portfolios_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "positions" ADD CONSTRAINT "positions_portfolio_id_portfolios_id_fk" FOREIGN KEY ("portfolio_id") REFERENCES "public"."portfolios"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "analysis_runs" ADD CONSTRAINT "analysis_runs_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;
+ALTER TABLE "analysis_runs" ADD CONSTRAINT "analysis_runs_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+CREATE INDEX "portfolios_user_id_idx" ON "portfolios" USING btree ("user_id");--> statement-breakpoint
+CREATE INDEX "positions_portfolio_id_idx" ON "positions" USING btree ("portfolio_id");--> statement-breakpoint
+CREATE INDEX "documents_embedding_idx" ON "documents" USING hnsw ("embedding" vector_cosine_ops);--> statement-breakpoint
+CREATE INDEX "documents_ticker_idx" ON "documents" USING btree ("ticker");--> statement-breakpoint
+CREATE INDEX "analysis_runs_user_id_idx" ON "analysis_runs" USING btree ("user_id");
