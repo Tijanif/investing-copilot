@@ -1,5 +1,5 @@
 {
-  "id": "652db951-8146-4122-be7d-9605033205a4",
+  "id": "83c24ded-dd21-4a52-86e9-9387c3f59453",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -251,11 +251,12 @@
           "notNull": true,
           "default": "gen_random_uuid()"
         },
-        "ticker": {
-          "name": "ticker",
-          "type": "text",
+        "tickers": {
+          "name": "tickers",
+          "type": "text[]",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true,
+          "default": "'{}'"
         },
         "source": {
           "name": "source",
@@ -324,11 +325,11 @@
           "method": "hnsw",
           "with": {}
         },
-        "documents_ticker_idx": {
-          "name": "documents_ticker_idx",
+        "documents_tickers_idx": {
+          "name": "documents_tickers_idx",
           "columns": [
             {
-              "expression": "ticker",
+              "expression": "tickers",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -336,7 +337,7 @@
           ],
           "isUnique": false,
           "concurrently": false,
-          "method": "btree",
+          "method": "gin",
           "with": {}
         }
       },
