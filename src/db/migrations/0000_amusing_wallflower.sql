@@ -34,7 +34,7 @@ CREATE TABLE "positions" (
 --> statement-breakpoint
 CREATE TABLE "documents" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-	"ticker" text,
+	"tickers" text[] DEFAULT '{}' NOT NULL,
 	"source" text NOT NULL,
 	"title" text NOT NULL,
 	"content" text NOT NULL,
@@ -63,5 +63,5 @@ ALTER TABLE "analysis_runs" ADD CONSTRAINT "analysis_runs_user_id_users_id_fk" F
 CREATE INDEX "portfolios_user_id_idx" ON "portfolios" USING btree ("user_id");--> statement-breakpoint
 CREATE INDEX "positions_portfolio_id_idx" ON "positions" USING btree ("portfolio_id");--> statement-breakpoint
 CREATE INDEX "documents_embedding_idx" ON "documents" USING hnsw ("embedding" vector_cosine_ops);--> statement-breakpoint
-CREATE INDEX "documents_ticker_idx" ON "documents" USING btree ("ticker");--> statement-breakpoint
+CREATE INDEX "documents_tickers_idx" ON "documents" USING gin ("tickers");--> statement-breakpoint
 CREATE INDEX "analysis_runs_user_id_idx" ON "analysis_runs" USING btree ("user_id");
